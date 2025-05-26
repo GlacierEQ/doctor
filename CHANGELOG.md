@@ -1,3 +1,5 @@
+## Coming up
+ - Override mime type for HTML content detection
 ## Current
 
 **0.3.1 - 2023-01-17**
