@@ -1,5 +1,5 @@
 # Note: Force M1 to emulate amd64
-FROM --platform=linux/amd64 python:3.10-slim
+FROM --platform=linux/amd64 python:3.10
 
 # Install apt dependencies
 # caching: https://docs.docker.com/build/cache/optimize/#use-cache-mounts
