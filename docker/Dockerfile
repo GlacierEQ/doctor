@@ -6,7 +6,6 @@ RUN apt-get update --option "Acquire::Retries=3" --quiet=2 && \
     apt-get install -y \
         build-essential \
         curl \
-        g++ \
         libjpeg-dev \
         libleptonica-dev \
         libtesseract-dev \
