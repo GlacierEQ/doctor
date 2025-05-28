@@ -1,6 +1,10 @@
 # Note: Force M1 to emulate amd64
 FROM --platform=linux/amd64 python:3.10
 
+# Install uv
+# https://docs.astral.sh/uv/guides/integration/docker/#installing-uv
+COPY --from=ghcr.io/astral-sh/uv:0.7 /uv /uvx /bin/
+
 # Install apt dependencies
 # caching: https://docs.docker.com/build/cache/optimize/#use-cache-mounts
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
@@ -15,7 +19,6 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
         libtesseract-dev \
         libz-dev \
         poppler-utils \
-        python3-pip \
         qpdf \
         tesseract-ocr \
         && \
@@ -46,12 +49,19 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     # faster overall performance
     OMP_THREAD_LIMIT=1
 
-COPY requirements.txt .
-RUN pip install -r requirements.txt
+WORKDIR /code
 
-COPY doctor /opt/app/doctor
-COPY manage.py /opt/app/
-WORKDIR /opt/app
+# Install Python dependencies
+COPY pyproject.toml uv.lock .
+# https://docs.astral.sh/uv/guides/integration/docker/#caching
+ENV UV_COMPILE_BYTECODE=1 \
+    UV_LINK_MODE=copy \
+    UV_PROJECT_ENVIRONMENT=/venv \
+    PATH="/venv/bin:$PATH"
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync
+
+COPY . .
 
 EXPOSE 5050
 
