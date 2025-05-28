@@ -9,15 +9,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: ["3.10", "3.11", "3.12"]
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v1
-      with:
-        python-version: ${{ matrix.python-version }}
+    - uses: actions/checkout@v4
 
     - name: Create the .env settings file
       run: cp .env.example .env.dev
@@ -27,7 +20,7 @@ jobs:
         echo 'DEBUG=on' >> .env.dev
 
     - name: Build Image
-      run: docker compose -f docker-compose.dev.yml up --build -d
+      run: docker compose up --build -d
 
     - name: Run tests
-      run: docker exec mock_web_app python3 -m unittest doctor.tests
+      run: docker compose exec doctor python -m unittest

@@ -333,7 +333,7 @@ This returns the audio file as a file response.
 
 ## Testing
 
-Testing is designed to be run with the `docker-compose.dev.yml` file.  To see more about testing
+Testing is designed to be run with the `compose.yaml` file.  To see more about testing
 checkout the DEVELOPING.md file.
 
 ## Sentry Logging
