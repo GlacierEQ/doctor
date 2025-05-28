@@ -3,22 +3,38 @@ FROM --platform=linux/amd64 python:3.10-slim
 
 RUN apt-get update --option "Acquire::Retries=3" --quiet=2 && \
     apt-get install -y --no-install-recommends apt-utils && \
-    apt-get install -y python3-pip poppler-utils curl \
-    libleptonica-dev tesseract-ocr libtesseract-dev \
-    g++ libz-dev libjpeg-dev build-essential qpdf && \
+    apt-get install -y \
+        build-essential \
+        curl \
+        g++ \
+        libjpeg-dev \
+        libleptonica-dev \
+        libtesseract-dev \
+        libz-dev \
+        poppler-utils \
+        python3-pip \
+        qpdf \
+        tesseract-ocr \
+        && \
     apt-get install \
         --option "Acquire::Retries=3" \
         --no-install-recommends \
         --assume-yes \
         --quiet=2 \
         `# Document extraction and OCR tools` \
-        antiword docx2txt ghostscript libwpd-tools \
+        antiword \
+        docx2txt \
+        ghostscript \
+        libwpd-tools \
         `# Audio extraction/manipulation tools` \
-         ffmpeg libmagic1 \
+        ffmpeg \
+        libmagic1 \
         `# Image & OCR tools` \
         imagemagick \
         `# Other dependencies` \
-        libffi-dev libxml2-dev libxslt-dev
+        libffi-dev \
+        libxml2-dev \
+        libxslt-dev
 
 # set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1 \
