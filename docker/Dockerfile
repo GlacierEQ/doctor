@@ -1,7 +1,11 @@
 # Note: Force M1 to emulate amd64
 FROM --platform=linux/amd64 python:3.10-slim
 
-RUN apt-get update --option "Acquire::Retries=3" --quiet=2 && \
+# Install apt dependencies
+# caching: https://docs.docker.com/build/cache/optimize/#use-cache-mounts
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,target=/var/lib/apt,sharing=locked \
+    apt-get update --option "Acquire::Retries=3" --quiet=2 && \
     apt-get install -y --no-install-recommends apt-utils && \
     apt-get install -y \
         build-essential \
