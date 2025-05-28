@@ -23,4 +23,4 @@ jobs:
       run: docker compose up --build -d
 
     - name: Run tests
-      run: docker compose exec doctor python -m unittest doctor.tests
+      run: docker compose exec doctor python -m unittest
