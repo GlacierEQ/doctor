@@ -316,9 +316,13 @@ def extract_extension(request) -> HttpResponse:
         r"(Audio file with ID3.*MPEG.*layer III)|(.*Audio Media.*)", file_str
     ):
         mime = "audio/mpeg"
+        # If the file content contains HTML tags, override the detected mime type to text/html
+    elif b"<html" in content.lower() or b"<div" in content.lower():
+        mime = "text/html"
     else:
         # No workaround necessary
         mime = magic.from_buffer(content, mime=True)
+
     extension = mimetypes.guess_extension(mime)
     if extension == ".obj":
         # It could be a wpd, if it's not a PDF
