@@ -9,7 +9,7 @@ dependencies = [
   "django>=3.2,<4",
   "django-environ>=0.8.1",
   "eyed3",
-  "gunicorn==20.1",
+  "gunicorn==22.0.0",
   "idna==2.10",
   "img2pdf",
   "lxml>=4.5.2",
